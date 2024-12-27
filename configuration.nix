@@ -8,15 +8,23 @@
   # Enable Prime offloading with optimus (NVIDIA Optimus laptops)
   # We don't need a separate option here, NixOS automatically handles GPU offloading via the X server.
   # You can use `primusrun` or `optirun` to offload to the NVIDIA GPU
-{ lib, pkgs, ... } @args:
-{
+{ config, pkgs, ... }:
 
-imports = [ # include the results of the hardware scan.
+{
+programs.steam = {
+  enable = true;
+  remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+};
+
+imports = [
       ./hardware-configuration.nix
     ];
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+
 
   # bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -67,7 +75,7 @@ imports = [ # include the results of the hardware scan.
   # allow unfree packages
   nixpkgs.config.allowUnfree  = true;
 
-  # list packages installed in system profile. to search, run:
+# list packages installed in system profile. to search, run:
   # $ nix search wget
   
   environment.systemPackages = with pkgs; [
@@ -116,6 +124,12 @@ imports = [ # include the results of the hardware scan.
   vulkan-tools
   wineWowPackages.waylandFull
   perl540Packages.OpenGL
+  usbutils
+  cheese
+  v4l-utils
+  libv4l
+  jellyfin-ffmpeg
+  gopro
 
   #personal applications
   vesktop
@@ -137,7 +151,27 @@ imports = [ # include the results of the hardware scan.
   ];
 
   #hyprland
-   programs.hyprland.enable = true;
+  programs = {
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+    waybar.enable = true;
+    xwayland.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+};
+
+  # Set cursor theme and size globally for XWayland and Wayland apps
+  environment.variables = {
+    XCURSOR_THEME = "HyprBibataModernClassicSVG";  # Cursor theme for XWayland apps
+    XCURSOR_SIZE = "24";  # Cursor size for XWayland apps
+    HYPRCURSOR_THEME = "HyprBibataModernClassicSVG";  # Cursor theme for Wayland apps (Hyprland)
+    HYPRCURSOR_SIZE = "24";  # Cursor size for Wayland apps (Hyprland)
+  };
+
 
 # some programs need suid wrappers, can be configured further or are
   # started in user sessions.
@@ -167,3 +201,4 @@ imports = [ # include the results of the hardware scan.
   system.stateVersion = "24.11"; # did you read the comment?
 
 }
+
