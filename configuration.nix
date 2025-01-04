@@ -11,6 +11,21 @@
 { config, pkgs, ... }:
 
 {
+
+nix.extraOptions = ''
+ experimental-features = nix-command flakes
+'';
+
+
+ programs.nix-ld.enable = true;
+ programs.nix-ld.libraries = with pkgs; [
+];
+
+
+hardware.graphics = {
+    enable = true;
+  };
+
 programs.steam = {
   enable = true;
   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -33,7 +48,32 @@ imports = [
   networking.hostName = "nixos"; # define your hostname.
   # networking.wireless.enable = true;  # enables wireless support via wpa_supplicant.
 
-  # configure network proxy if necessary
+
+#Nvidia
+services.xserver.videoDrivers = ["nvidia"];
+
+hardware.nvidia = {
+modesetting.enable = true; # Enable modesetting for better performance
+powerManagement.enable = false; # Disable power management to avoid interruptions
+powerManagement.finegrained = false; # Avoid fine-grained power management
+open = false; # Stick with proprietary driver (better for gaming)
+nvidiaSettings = true; # Enable nvidia-settings tool for GPU management
+package = config.boot.kernelPackages.nvidiaPackages.stable; # Stable driver package
+
+};
+hardware.nvidia.prime = {
+offload = {
+enable = true;
+enableOffloadCmd = true;
+};
+# Make sure to use the correct Bus ID values for your system!
+intelBusId = "PCI:0:2:0"; # Intel GPU
+nvidiaBusId = "PCI:1:0:0"; # NVIDIA GPU
+# amdgpuBusId = "PCI:54:0:0"; # For AMD GPUs (not applicable here)
+};
+
+
+  #configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noproxy = "127.0.0.1,localhost,internal.domain";
 
@@ -101,6 +141,7 @@ imports = [
   python312Packages.pip
   python312Packages.cmake
   gnumake42
+  libgccjit
 
 #hyprland 
   kitty
@@ -109,7 +150,8 @@ imports = [
   killall
   dolphin
   brightnessctl
-  grimblast # helper for screenshots within hyprland
+  grim # helper for screenshots within hyprland
+  slurp
   playerctl 
   networkmanagerapplet 
   dunst
@@ -130,6 +172,9 @@ imports = [
   libv4l
   jellyfin-ffmpeg
   gopro
+  zenith-nvidia
+  btop
+  sxiv
 
   #personal applications
   vesktop
@@ -201,4 +246,3 @@ imports = [
   system.stateVersion = "24.11"; # did you read the comment?
 
 }
-
