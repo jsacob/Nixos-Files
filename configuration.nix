@@ -148,7 +148,6 @@ nvidiaBusId = "PCI:1:0:0"; # NVIDIA GPU
   tofi
   waybar
   killall
-  dolphin
   brightnessctl
   grim # helper for screenshots within hyprland
   slurp
@@ -159,7 +158,6 @@ nvidiaBusId = "PCI:1:0:0"; # NVIDIA GPU
   xdg-utils
   fastfetch
   hyprpaper
-  swaybg
   wayland
   wayland-protocols
   mesa
@@ -175,6 +173,12 @@ nvidiaBusId = "PCI:1:0:0"; # NVIDIA GPU
   zenith-nvidia
   btop
   sxiv
+  wakatime
+  openssl
+  wakatime-cli
+  gthumb
+  glib
+  gtk3
 
   #personal applications
   vesktop
@@ -186,7 +190,7 @@ nvidiaBusId = "PCI:1:0:0"; # NVIDIA GPU
   vlc
   spotify
   skypeforlinux
-	
+
   #Nvidia
   nvtopPackages.nvidia
 ];
