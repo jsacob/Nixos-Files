@@ -1,18 +1,18 @@
-# This is my current Configuration.nix File, If you're looking through it I tried to label all of the
-# more unknowed packages and also tried to sort everything neetly so it'll be easy to read.
-
-# sudo nixos-rebuild switch (optional) --upgrade-all
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-  #------------------------------------------------------------------------------
+ #------------------------------------------------------------------------------
 
   #System
   { config, pkgs, ... }:
+let
 
-  {
+unstable = import <nixos-unstable> {
+    config = { allowUnfree = true; };
+  };
+in
+{
   
+  # Docker
+  virtualisation.docker.enable = true;
+
   # Programs
   programs.hyprland.enable = true;
   programs.fish.enable = true;
@@ -138,7 +138,17 @@
   picom #Compositor
   libgccjit
   nodejs_22
+  stow
   sublime4
+  llvmPackages_19.libcxxClang
+  zoxide
+  bun
+  notes
+  cargo
+  rustup
+  rustlings
+  python312Packages.cmake
+  typescript
 
   #System
   kitty 
@@ -147,7 +157,7 @@
   unzip # Unzip packages
   wl-clipboard # For automatically copying whole files  
   tofi # Search tool
-  flameshot # Screenshot Tool
+  libsForQt5.spectacle # Screenshot Tool
   playerctl # Music Player for keys
   dunst # Notification daemon
   xdg-utils # command-line utilites
@@ -166,12 +176,13 @@
   nvtopPackages.nvidia # For Nvidia
   openssl
   gparted # Graphical disk paritioning tool
+  grimblast
 
   #personal
   obsidian
   google-chrome
   vesktop 
-  lunar-client
+  unstable.lunar-client
   obs-studio
   vlc
   spotify
@@ -181,9 +192,11 @@
 
   # Other
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "CascadiaCode" ]; })
-  ];
+  fonts.packages = [
+  pkgs.nerd-fonts._0xproto
+  pkgs.nerd-fonts.droid-sans-mono
+];
+
 
 # Set cursor theme and size globally for XWayland and Wayland apps
   environment.variables = {
