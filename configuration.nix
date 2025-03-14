@@ -1,14 +1,26 @@
- #------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
-  #System
   { config, pkgs, ... }:
-let
 
-unstable = import <nixos-unstable> {
+  let
+
+  unstable = import <nixos-unstable> {
     config = { allowUnfree = true; };
-  };
-in
-{
+    };
+  in
+  {
+  
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+   };
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+
+  boot.kernelModules = [ "v4l2loopback" ];
   
   # Docker
   virtualisation.docker.enable = true;
@@ -16,7 +28,8 @@ in
   # Programs
   programs.hyprland.enable = true;
   programs.fish.enable = true;
- 
+  programs.nix-ld.enable = true;
+
   users.defaultUserShell = pkgs.fish;
 
   imports =
@@ -63,6 +76,7 @@ in
   #------------------------------------------------------------------------------
 
   # Bluetooth
+  services.blueman.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
@@ -122,7 +136,6 @@ in
 
   # System (global) Packages
   environment.systemPackages = with pkgs; [
-
   #code
   neovim
   git
@@ -149,6 +162,19 @@ in
   rustlings
   python312Packages.cmake
   typescript
+  gnumake
+  nmap
+  android-studio
+  timer
+  pulseaudio
+  libcs50
+  texliveTeTeX
+  pandoc
+  ghostty 
+  zulu17 #JDK17
+  jdk17
+  maven
+  java-language-server
 
   #System
   kitty 
@@ -177,6 +203,12 @@ in
   openssl
   gparted # Graphical disk paritioning tool
   grimblast
+  parted
+  util-linux
+  nix-ld
+  tigervnc
+  xorg.xinit
+  jq
 
   #personal
   obsidian
@@ -186,17 +218,13 @@ in
   obs-studio
   vlc
   spotify
+  steam
+  zoom-us
   ];
 
   #------------------------------------------------------------------------------
 
   # Other
-
-  fonts.packages = [
-  pkgs.nerd-fonts._0xproto
-  pkgs.nerd-fonts.droid-sans-mono
-];
-
 
 # Set cursor theme and size globally for XWayland and Wayland apps
   environment.variables = {
@@ -238,7 +266,16 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  services.pipewire = {
+     enable = true;
+     audio.enable = true;
+     extraConfig.pipewire = {
+       "context.modules" = [
+         { name = "libpipewire-module-bluez5"; args = { "a2dp.force-a2dp" = true; }; }
+       ];
+     };
+   };
+
 }
 
   #------------------------------------------------------------------------------
-
