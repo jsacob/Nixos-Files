@@ -1,27 +1,11 @@
-#------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------
 
   { config, pkgs, ... }:
-
-  let
-
-  unstable = import <nixos-unstable> {
-    config = { allowUnfree = true; };
-    };
-  in
+  
   {
-  
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  #------------------------------------------------------------------------------
 
-
-  boot.kernelModules = [ "v4l2loopback" ];
-  
   # Docker
   virtualisation.docker.enable = true;
 
@@ -136,60 +120,53 @@
 
   # System (global) Packages
   environment.systemPackages = with pkgs; [
+
   #code
+  ghostty
+  zed-editor
   neovim
   git
   gh
   wget
-  gcc
   deno
   python312
   pkg-config
-  luarocks #(Lazyvim)
-  stylua #(LazyVim)
+  luarocks # (Lazyvim)
+  stylua # (LazyVim)
   fzf #Fuzzy Finder (LazyVim)
-  picom #Compositor
   libgccjit
   nodejs_22
-  stow
   sublime4
   llvmPackages_19.libcxxClang
-  zoxide
+  zoxide # Smarter Cli
   bun
-  notes
   cargo
   rustup
   rustlings
   python312Packages.cmake
   typescript
   gnumake
-  nmap
-  android-studio
   timer
-  pulseaudio
-  libcs50
   texliveTeTeX
   pandoc
-  ghostty 
-  zulu17 #JDK17
-  jdk17
-  maven
-  java-language-server
+  jdk21
+  rocmPackages_5.llvm.clang-unwrapped
+  helix
+  helix-gpt
+  sublime-merge-dev
 
   #System
-  kitty 
-  fish 
-  brightnessctl #Controls Brightness
+  fish # Shell
+  brightnessctl # Controls Brightness
   unzip # Unzip packages
   wl-clipboard # For automatically copying whole files  
   tofi # Search tool
-  libsForQt5.spectacle # Screenshot Tool
   playerctl # Music Player for keys
   dunst # Notification daemon
   xdg-utils # command-line utilites
-  fastfetch
-  hyprpaper
-  wayland
+  fastfetch # cutom GUI prompt for cli
+  hyprpaper # Hyprland wallpaper manager
+  wayland 
   wayland-protocols
   mesa #Collection of graphic libraries that run OpenGL, Vulkan, ect.
   vulkan-tools
@@ -201,25 +178,22 @@
   gtk3 # To create window application (vauge)
   nvtopPackages.nvidia # For Nvidia
   openssl
-  gparted # Graphical disk paritioning tool
-  grimblast
-  parted
-  util-linux
-  nix-ld
-  tigervnc
-  xorg.xinit
-  jq
+  grimblast # Screenshot tool
+  util-linux # Utils for Linux
+  dolphin
 
   #personal
   obsidian
   google-chrome
   vesktop 
-  unstable.lunar-client
+  lunar-client
   obs-studio
-  vlc
-  spotify
   steam
   zoom-us
+  cider
+
+  #Temp but don't want to nix-shell
+  x11vnc
   ];
 
   #------------------------------------------------------------------------------
