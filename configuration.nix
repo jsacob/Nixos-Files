@@ -1,7 +1,13 @@
   #------------------------------------------------------------------------------
 
   { config, pkgs, ... }:
-  
+  let
+  # sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
+  # sudo nix-channel --update
+  unstable = import <nixos-unstable> {
+    config = { allowUnfree = true; };
+  };
+in
   {
 
   #------------------------------------------------------------------------------
@@ -9,7 +15,6 @@
   # Docker
   virtualisation.docker.enable = true;
 
-  # Programs
   programs.hyprland.enable = true;
   programs.fish.enable = true;
   programs.nix-ld.enable = true;
@@ -122,8 +127,6 @@
   environment.systemPackages = with pkgs; [
 
   #code
-  ghostty
-  zed-editor
   neovim
   git
   gh
@@ -134,10 +137,7 @@
   luarocks # (Lazyvim)
   stylua # (LazyVim)
   fzf #Fuzzy Finder (LazyVim)
-  libgccjit
   nodejs_22
-  sublime4
-  llvmPackages_19.libcxxClang
   zoxide # Smarter Cli
   bun
   cargo
@@ -150,10 +150,9 @@
   texliveTeTeX
   pandoc
   jdk21
-  rocmPackages_5.llvm.clang-unwrapped
-  helix
-  helix-gpt
-  sublime-merge-dev
+  libgccjit
+  kitty
+  vscode
 
   #System
   fish # Shell
@@ -180,26 +179,19 @@
   openssl
   grimblast # Screenshot tool
   util-linux # Utils for Linux
-  dolphin
+  waybar
+  jdt-language-server
 
   #personal
   obsidian
   google-chrome
   vesktop 
-  lunar-client
   obs-studio
-  steam
-  zoom-us
-  cider
-
-  #Temp but don't want to nix-shell
-  x11vnc
+  vlc
+  nix-search-cli
   ];
 
   #------------------------------------------------------------------------------
-
-  # Other
-
 # Set cursor theme and size globally for XWayland and Wayland apps
   environment.variables = {
     XCURSOR_THEME = "HyprBibataModernClassicSVG";  # Cursor theme for XWayland apps
