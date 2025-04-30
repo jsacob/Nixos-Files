@@ -118,6 +118,13 @@ in
     packages = with pkgs; [];
   };
 
+  users.users.jacob2 = {
+    isNormalUser = true;
+    description = "jacob";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [longcat neofetch];
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -128,6 +135,8 @@ in
 
   #code
   neovim
+  sublime4
+  sublime-merge
   git
   gh
   wget
@@ -152,8 +161,11 @@ in
   jdk21
   libgccjit
   kitty
-  vscode
-
+  sutils
+  tree-sitter
+  python312Packages.pip
+  python312Packages.pygame
+  
   #System
   fish # Shell
   brightnessctl # Controls Brightness
@@ -179,9 +191,9 @@ in
   openssl
   grimblast # Screenshot tool
   util-linux # Utils for Linux
-  waybar
-  jdt-language-server
-
+  bat
+  imgcat
+  
   #personal
   obsidian
   google-chrome
