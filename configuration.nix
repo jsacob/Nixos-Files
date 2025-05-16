@@ -10,8 +10,9 @@
 in
   {
 
-  #------------------------------------------------------------------------------
 
+  #------------------------------------------------------------------------------
+  
   # Docker
   virtualisation.docker.enable = true;
 
@@ -118,7 +119,7 @@ in
     packages = with pkgs; [];
   };
 
-  users.users.jacob2 = {
+  users.users.lily = {
     isNormalUser = true;
     description = "jacob";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -135,8 +136,6 @@ in
 
   #code
   neovim
-  sublime4
-  sublime-merge
   git
   gh
   wget
@@ -201,6 +200,7 @@ in
   obs-studio
   vlc
   nix-search-cli
+  vscode
   ];
 
   #------------------------------------------------------------------------------
