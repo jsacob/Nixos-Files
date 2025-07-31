@@ -17,10 +17,10 @@ in
   virtualisation.docker.enable = true;
 
   programs.hyprland.enable = true;
-  programs.fish.enable = true;
+  programs.zsh.enable = true;
   programs.nix-ld.enable = true;
 
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.zsh;
 
   imports =
     [ # Include the results of the hardware scan.
@@ -43,6 +43,7 @@ in
   open = false; # Stick with proprietary driver (better for gaming)
   nvidiaSettings = true; # Enable nvidia-settings tool for GPU management
   package = config.boot.kernelPackages.nvidiaPackages.stable; # Stable driver package
+  
 
   };
   hardware.nvidia.prime = {
@@ -137,34 +138,34 @@ in
   #code
   neovim
   git
+  tmux
   gh
-  wget
-  deno
   python312
   pkg-config
   luarocks # (Lazyvim)
+  pkgs.vimPlugins.nvim-treesitter
   stylua # (LazyVim)
   fzf #Fuzzy Finder (LazyVim)
   nodejs_22
-  zoxide # Smarter Cli
   bun
   cargo
   rustup
   rustlings
-  python312Packages.cmake
-  typescript
   gnumake
   timer
-  texliveTeTeX
-  pandoc
   jdk21
   libgccjit
   kitty
   sutils
   tree-sitter
-  python312Packages.pip
-  python312Packages.pygame
-  
+  gcc
+  glibc 
+  binutils
+  flatpak
+  nmap
+  alacritty
+  zsh
+
   #System
   fish # Shell
   brightnessctl # Controls Brightness
@@ -174,18 +175,13 @@ in
   playerctl # Music Player for keys
   dunst # Notification daemon
   xdg-utils # command-line utilites
-  fastfetch # cutom GUI prompt for cli
   hyprpaper # Hyprland wallpaper manager
   wayland 
   wayland-protocols
-  mesa #Collection of graphic libraries that run OpenGL, Vulkan, ect.
-  vulkan-tools
   wineWowPackages.waylandFull #For running window applications on Linux
   usbutils #Collection of tools for interacting with USB devices
-  btop # Resource monitoring tool 
+  atop # Resource monitoring tool 
   gthumb # Image viewer
-  glib # Low level core library (used by many Linux applications)
-  gtk3 # To create window application (vauge)
   nvtopPackages.nvidia # For Nvidia
   openssl
   grimblast # Screenshot tool
@@ -194,13 +190,10 @@ in
   imgcat
   
   #personal
-  obsidian
-  google-chrome
+  firefox
   vesktop 
-  obs-studio
-  vlc
   nix-search-cli
-  vscode
+  godot
   ];
 
   #------------------------------------------------------------------------------
